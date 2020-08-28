@@ -6,6 +6,7 @@ module.exports = {
     enabled: false,
     content: [
       './views/*.ejs',
+      './public/assets/script.js',
     ],
   },
   theme: {

@@ -9,12 +9,10 @@ const peer = new Peer(undefined, {
 
 /* create self 
 video and mute */
-const myVideo = createVideoElement()
-myVideo.muted = true
-
+const myVideo = createVideoElement(true)
 
 const peers = {} //object to save connected user
-const listConnection = {}
+const connectedID = [] //array to handle navigator called function twice
 /* Join room in socket.io
 when peer connection opened */
 peer.on('open', id => {
@@ -33,14 +31,16 @@ navigator.mediaDevices.getUserMedia({
   for Peer call */
   peer.on('call', call => {
     call.answer(stream)
-    const video = document.createElement('video')
+    const video = createVideoElement()
 
     /* this event called
     after call answered */
     call.on('stream', userVideoStream => {
-      if(!peers[userId]){
+      if(!connectedID.includes(userVideoStream.id)){
         addVideoStream(video, userVideoStream)
+        connectedID.push(userVideoStream.id)
       }
+      
     })
   })
 })
@@ -93,19 +93,25 @@ function connectToNewUser(userId) {
  * @param {object} stream video stream
  */
 function addVideoStream(video, stream) {
-  video.srcObject = stream
-  video.addEventListener('loadedmetadata', () => {
-    video.play()
+  video.children[0].srcObject = stream
+  video.children[0].addEventListener('loadedmetadata', () => {
+    video.children[0].play()
   })
-  videoGrid.append(appendElemenToBody(video))
+  videoGrid.append(video)
 }
 
 /**
  * create html video element
  */
-function createVideoElement(){
+function createVideoElement(isSelf = false){
     const video = document.createElement('video')
-    return video
+    if(isSelf){
+      video.muted = true
+    }
+    const div = document.createElement('div')
+    div.className += "w-1/6 bg-teal-500 rounded-lg p-2 mx-2"
+    div.appendChild(video)
+    return div
 }
 
 /**
