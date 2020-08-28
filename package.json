@@ -1,0 +1,29 @@
+{
+  "name": "rtcconference",
+  "version": "1.0.0",
+  "description": "a simple application for realtime video conference",
+  "scripts": {
+    "build:css": "nodemon --watch public/assets/stylesheets/tailwind.css -x 'postcss public/assets/stylesheets/tailwind.css -o public/assets/style.css'",
+    "start": "node app & npm run build:css"
+  },
+  "keywords": [
+    "video",
+    "meet",
+    "conference",
+    "zoom"
+  ],
+  "author": "Muhammad Ghazi Muharam",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "postcss-import": "^12.0.1",
+    "socket.io": "^2.3.0",
+    "tailwindcss": "^1.7.5",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
