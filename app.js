@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const { validate:uuidValidate } = require('uuid');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 app.set('view engine', 'ejs')
 app.set('views', __dirname+'/views/');
 app.use(express.static('public'))
@@ -31,6 +32,9 @@ app.get('/room/:roomId', (req, res) => {
     res.render('room', { roomId: req.params.roomId})
 })
 
+/**
+ * Configuring socket.io connection
+ */
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId) => {
       socket.join(roomId)
